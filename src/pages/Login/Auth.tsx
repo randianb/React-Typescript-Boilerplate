@@ -5,10 +5,11 @@ export interface IFormInputValues {
   username: string;
   password: string;
   isRemember: boolean;
+  isOnLogin: boolean;
   token: string;
 }
 
-export function getFormValues() {
+export function getFormValues(islogin:boolean) {
   const storedValues = localStorage.getItem('form');
   if (!storedValues)
     return {
@@ -18,28 +19,37 @@ export function getFormValues() {
       token: ''
     };
   const val = JSON.parse(storedValues);
-  if (!val.isRemember) {
+  if (islogin&&!val.isRemember) {
     return {
       username: '',
       password: '',
       isRemember: false,
+      isOnLogin: false,
       token: ''
     };
   }
   return val;
 }
-export default function Auth() {
-  const [values, setValues] = React.useState<IFormInputValues>(getFormValues);
-
+type Props = {
+  onLogin: () => void,
+}
+const Auth = ({ onLogin }: Props) => {
+  const setupurl = `${process.env.REACT_APP_MES_SERVER_URL}neu-runtime/ef210fff_f87d_478a_b74d_d2355633971f`;
+  const [values, setValues] = React.useState<IFormInputValues>(getFormValues(true));
+   
   React.useEffect(() => {
     localStorage.setItem('form', JSON.stringify(values));
   }, [values]);
 
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    setValues((previousValues) => ({
+      ...previousValues, isOnLogin: true
+    }));
     event.preventDefault();
-    const host_port = "http://192.168.138.198:8080/ime-start/"
-    const url = host_port + `oauth/token?grant_type=password&username=${values.username}&password=${values.password}`
+    if (!process.env.REACT_APP_MES_AUTH_URL) { throw new Error('missing REACT_APP_MES_AUTH_URL config'); }
+    const authurl = process.env.REACT_APP_MES_AUTH_URL;
+    const url = authurl + `oauth/token?grant_type=password&username=${values.username}&password=${values.password}`
     try {
       const response = await fetch(url, { method: 'post' });
       if (response.ok) {
@@ -47,13 +57,25 @@ export default function Auth() {
         setValues((previousValues) => ({
           ...previousValues, token: data.value
         }));
-        window.location.href="/"
+        setValues((previousValues) => ({
+          ...previousValues, isOnLogin: false
+        }));
+        onLogin();
       }
       else {
-
+        console.log(response)
+        setValues((previousValues) => ({
+          ...previousValues, isOnLogin: false
+        }));
       }
     } catch (error) {
       console.log(error)
+      setValues((previousValues) => ({
+        ...previousValues, isOnLogin: false
+      }));
+    }
+    finally {
+     
     }
   }
   function handleChange(
@@ -97,7 +119,7 @@ export default function Auth() {
             <p className="mt-2 text-center text-sm text-gray-600">
               请使用MES用户登录，如果还没有账号，请{' '}
               <a
-                href="#"
+                href={setupurl}
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 在MES注册新的用户
@@ -165,10 +187,16 @@ export default function Auth() {
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <LockClosedIcon
-                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                    aria-hidden="true"
-                  />
+                  {values.isOnLogin
+                    ?  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                    : <LockClosedIcon
+                      className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                      aria-hidden="true"
+                    />
+                  }
                 </span>
                 登 录
               </button>
@@ -179,3 +207,5 @@ export default function Auth() {
     </>
   );
 }
+
+export default Auth;

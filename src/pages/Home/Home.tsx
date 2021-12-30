@@ -3,7 +3,7 @@ import { Redirect } from 'react-router';
 import { IFormInputValues, getFormValues } from '../Login/Auth'
 
 export default function HomePage() {
-  const [values] = React.useState<IFormInputValues>(getFormValues);
+  const [values] = React.useState<IFormInputValues>(getFormValues(false));
 
   if (values.token.length > 0) {
     return (

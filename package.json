@@ -9,8 +9,10 @@
     "yarn": "^1.5"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "start:local": "env-cmd -f .env.development react-script start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:staging": "env-cmd -f .env.staging react-scripts build",
     "lint": "tslint --project .",
     "format": "prettier --write \"src/**/*.{ts,tsx,scss,json,js,jsx,css}\"",
     "format:check": "prettier --list-different \"src/**/*.{ts,tsx,scss,json,js,jsx,css}\"",
@@ -20,8 +22,10 @@
     "@heroicons/react": "1.0.5",
     "auth0-js": "^9.8.0",
     "classnames": "2.3.1",
+    "env-cmd": "^10.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-error-overlay": "6.0.9",
     "react-router": "5.0.1",
     "react-router-dom": "5.0.1",
     "react-scripts": "^2.1.8"
