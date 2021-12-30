@@ -1,22 +1,32 @@
-import { useState } from 'react';
 import React from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid';
 
-interface IFormInputValues {
+export interface IFormInputValues {
   username: string;
   password: string;
-  isRemember: false;
+  isRemember: boolean;
+  token: string;
 }
 
-function getFormValues() {
+export function getFormValues() {
   const storedValues = localStorage.getItem('form');
   if (!storedValues)
     return {
       username: '',
       password: '',
-      isRemember: false
+      isRemember: false,
+      token: ''
     };
-  return JSON.parse(storedValues);
+  const val = JSON.parse(storedValues);
+  if (!val.isRemember) {
+    return {
+      username: '',
+      password: '',
+      isRemember: false,
+      token: ''
+    };
+  }
+  return val;
 }
 export default function Auth() {
   const [values, setValues] = React.useState<IFormInputValues>(getFormValues);
@@ -25,18 +35,43 @@ export default function Auth() {
     localStorage.setItem('form', JSON.stringify(values));
   }, [values]);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    alert('An error occurred on the server. Please try again!!!');
-  }
 
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const host_port = "http://192.168.138.198:8080/ime-start/"
+    const url = host_port + `oauth/token?grant_type=password&username=${values.username}&password=${values.password}`
+    try {
+      const response = await fetch(url, { method: 'post' });
+      if (response.ok) {
+        const data = await response.json();
+        setValues((previousValues) => ({
+          ...previousValues, token: data.value
+        }));
+        window.location.href="/"
+      }
+      else {
+
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   function handleChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement>
   ) {
-    setValues((previousValues) => ({
-      ...previousValues,
-      [event.target.name]: event.target.value
-    }));
+    event.persist()
+    if (event.target.name == 'isRemember') {
+      setValues((previousValues) => ({
+        ...previousValues,
+        [event.target.name]: !values.isRemember
+      }));
+    }
+    else {
+      setValues((previousValues) => ({
+        ...previousValues,
+        [event.target.name]: event.target.value
+      }));
+    }
   }
   return (
     <>
@@ -69,7 +104,7 @@ export default function Auth() {
               </a>
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -111,7 +146,7 @@ export default function Auth() {
                   id="remember-me"
                   name="isRemember"
                   onChange={handleChange}
-                  checked={values.isRemember}
+                  defaultChecked={values.isRemember}
                   type="checkbox"
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                 />
