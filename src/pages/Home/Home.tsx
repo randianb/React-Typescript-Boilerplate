@@ -3,11 +3,12 @@ import { Redirect } from 'react-router';
 import { IFormInputValues, getFormValues } from '../Login/Auth'
 import Alert from '../../components/Alert'
 import Table from '../../components/Table'
+import Dashboard from '../../components/Dashboard';
+
 
 export default function HomePage() {
   const [values] = React.useState<IFormInputValues>(getFormValues(false));
   const childRef = useRef<{openModal:()=>{}}>(null!);
-
   if (values.token.length > 0) {
     return (
       <main className="home">
@@ -15,7 +16,9 @@ export default function HomePage() {
 
         <Alert title='抽检结果' message='抽检正在进行中' confirmtxt='确认' ref={childRef}></Alert>
         <button onClick={() => childRef.current.openModal()}>Click Parent</button>
+        <Dashboard></Dashboard>
         <Table></Table>
+
       </main>
     );
   }

@@ -1,0 +1,170 @@
+dashboarddata:
+  card:
+    - title: OP10-1桁架
+      name: 
+      - name: 1-1
+        key: 
+        state: 
+      - name: 1-2
+        key: 
+        state: 
+      - name: 1-3
+        key: 
+        state: 
+      - name: 1-4
+        key: 
+        state: 
+    - title: OP20-1桁架
+      name: 
+      - name: 1-1
+        key: 
+        state: 
+      - name: 1-2
+        key: 
+        state: 
+      - name: 1-3
+        key: 
+        state: 
+      - name: 1-4
+        key: 
+        state: 
+    - title: OP30-1桁架
+      name: 
+      - name: 1-1
+        key: 
+        state: 
+      - name: 1-2
+        key: 
+        state: 
+      - name: 1-3
+        key: 
+        state: 
+      - name: 1-4
+        key: 
+        state: 
+    - title: OP40-1桁架
+      name: 
+      - name: 1-1
+        key: 
+        state: 
+      - name: 1-2
+        key: 
+        state: 
+      - name: 1-3
+        key: 
+        state: 
+      - name: 1-4
+        key: 
+        state: 
+    - title: OP10-2桁架
+      name: 
+      - name: 2-1
+        key: 
+        state: 
+      - name: 2-2
+        key: 
+        state: 
+      - name: 2-3
+        key: 
+        state: 
+      - name: 2-4
+        key: 
+        state: 
+    - title: OP20-2桁架
+      name: 
+      - name: 2-1
+        key: 
+        state: 
+      - name: 2-2
+        key: 
+        state: 
+      - name: 2-3
+        key: 
+        state: 
+      - name: 2-4
+        key: 
+        state: 
+    - title: OP30-2桁架
+      name: 
+      - name: 2-1
+        key: 
+        state: 
+      - name: 2-2
+        key: 
+        state: 
+      - name: 2-3
+        key: 
+        state: 
+      - name: 2-4
+        key: 
+        state: 
+    - title: OP40-2桁架
+      name: 
+      - name: 2-1
+        key: 
+        state: 
+      - name: 2-2
+        key: 
+        state: 
+      - name: 2-3
+        key: 
+        state: 
+      - name: 2-4
+        key: 
+        state: 
+    - title: OP10-3桁架
+      name: 
+      - name: 3-1
+        key: 
+        state: 
+      - name: 3-2
+        key: 
+        state: 
+      - name: 3-3
+        key: 
+        state: 
+      - name: 3-4
+        key: 
+        state: 
+    - title: OP20-3桁架
+      name: 
+      - name: 3-1
+        key: 
+        state: 
+      - name: 3-2
+        key: 
+        state: 
+      - name: 3-3
+        key: 
+        state: 
+      - name: 3-4
+        key: 
+        state: 
+    - title: OP30-3桁架
+      name: 
+      - name: 3-1
+        key: 
+        state: 
+      - name: 3-2
+        key: 
+        state: 
+      - name: 3-3
+        key: 
+        state: 
+      - name: 3-4
+        key: 
+        state: 
+    - title: OP40-3桁架
+      name: 
+      - name: 3-1
+        key: 
+        state: 
+      - name: 3-2
+        key: 
+        state: 
+      - name: 3-3
+        key: 
+        state: 
+      - name: 3-4
+        key: 
+        state: 

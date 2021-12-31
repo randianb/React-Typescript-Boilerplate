@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "nvm-first",
+            "type": "shell",
+            "command":"fish",
+            "args": [
+                "-c",
+                "cd . & node -v & yarn start local"
+            ],
+            "isBackground": true
+           
+        }
+    ]
+}
