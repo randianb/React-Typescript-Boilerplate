@@ -7,6 +7,7 @@ export interface IFormInputValues {
   password: string;
   isRemember: boolean;
   isOnLogin: boolean;
+  isError: boolean;
   token: string;
 }
 
@@ -66,10 +67,16 @@ const Auth = ({ onLogin }: Props) => {
         else {
           console.log(response)
           setValues((previousValues) => ({
+            ...previousValues, isError: true
+          }));
+          setValues((previousValues) => ({
             ...previousValues, isOnLogin: false
           }));
         }
       }).catch(function (error) {
+        setValues((previousValues) => ({
+          ...previousValues, isError: true
+        }));
         console.log(error);
         setValues((previousValues) => ({
           ...previousValues, isOnLogin: false
@@ -82,6 +89,9 @@ const Auth = ({ onLogin }: Props) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     event.persist()
+    setValues((previousValues) => ({
+      ...previousValues, isError: false
+    }));
     if (event.target.name == 'isRemember') {
       setValues((previousValues) => ({
         ...previousValues,
@@ -200,6 +210,9 @@ const Auth = ({ onLogin }: Props) => {
                 </span>
                 登 录
               </button>
+              {
+              values.isError?<p className="mt-3 text-sm	text-red-600">用户名或密码错误</p>:<p></p>
+              }
             </div>
           </form>
         </div>
